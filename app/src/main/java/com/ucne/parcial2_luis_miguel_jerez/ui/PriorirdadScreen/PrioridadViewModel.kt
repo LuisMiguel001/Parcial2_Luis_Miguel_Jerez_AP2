@@ -118,6 +118,12 @@ class PrioridadViewModel @Inject constructor(
                 viewModelScope.launch {
                     PrioridaRepositori.upsert(prioridad)
                 }
+
+                _state.update {
+                    it.copy(
+                        prioridad = Prioridades()
+                    )
+                }
             }
 
             PrioridadEvent.onNew -> {
