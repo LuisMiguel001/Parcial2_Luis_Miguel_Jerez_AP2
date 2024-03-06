@@ -11,8 +11,8 @@ data class Prioridades(
     val descripcion: String = "",
     val plazo: Int = 0,
     val esNulo: Boolean = false,
-    val Creador: Int = 0,
+    val creadoPor: Int = 0,
     val fechaCreacion: String = "",
-    val modidicador: Int = 0,
+    val modidicadoPor: Int = 0,
     val fechaModificacion: String = "",
 )
