@@ -23,6 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ucne.parcial2_luis_miguel_jerez.ui.PriorirdadScreen.Registro
+import com.ucne.parcial2_luis_miguel_jerez.ui.consulta.Consulta
 import com.ucne.parcial2_luis_miguel_jerez.ui.theme.Parcial2_Luis_Miguel_JerezTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,15 +46,11 @@ class MainActivity : ComponentActivity() {
                                 Text(text = "")
                             },
                             actions = {
-                                IconButton(onClick = { navController.navigate("")}
-                                ){
-                                    Icon(imageVector = Icons.Default.Home, contentDescription = "Home")
-                                }
-                                IconButton(onClick = { navController.navigate("")}
+                                IconButton(onClick = { navController.navigate("registro")}
                                 ){
                                     Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
                                 }
-                                IconButton(onClick = { navController.navigate("") }
+                                IconButton(onClick = { navController.navigate("consulta") }
                                 ) {
                                     Icon(imageVector = Icons.Default.List, contentDescription = "List")
                                 }
@@ -62,13 +60,13 @@ class MainActivity : ComponentActivity() {
                 ){
                     NavHost(
                         navController = navController,
-                        startDestination = ""
+                        startDestination = "registro"
                     ){
-                        composable(""){
+                        composable("registro"){
+                            Registro()
                         }
-                        composable(""){
-                        }
-                        composable(""){
+                        composable("consulta"){
+                            Consulta()
                         }
                     }
                 }
