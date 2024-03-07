@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
                     topBar = {
                         TopAppBar(
                             title = {
-                                Text(text = "")
+                                Text(text = "Prioriadades App")
                             },
                             actions = {
                                 IconButton(onClick = { navController.navigate("registro")}
@@ -60,7 +60,7 @@ class MainActivity : ComponentActivity() {
                 ){
                     NavHost(
                         navController = navController,
-                        startDestination = "registro"
+                        startDestination = "consulta"
                     ){
                         composable("registro"){
                             Registro()

@@ -115,6 +115,16 @@ class PrioridadViewModel @Inject constructor(
                     fechaModificacion = fechamodificacion
                 )
 
+                if (nombre.isBlank() || descripcion.isBlank() || plazo == 0  || esnulo == null ||
+                    creado == 0 || fechamodificacion.isBlank() || modificadopor == 0 || fechamodificacion.isBlank()) {
+                    _state.update {
+                        it.copy(
+                            error = "Por favor, complete todos los campos."
+                        )
+                    }
+                    return
+                }
+
                 viewModelScope.launch {
                     PrioridaRepositori.upsert(prioridad)
                 }
@@ -129,6 +139,8 @@ class PrioridadViewModel @Inject constructor(
             PrioridadEvent.onNew -> {
                 _state.update {
                     it.copy(
+                        MessageSucces = null,
+                        error = null,
                         prioridad = Prioridades()
                     )
                 }
