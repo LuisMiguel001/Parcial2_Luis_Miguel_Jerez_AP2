@@ -126,7 +126,22 @@ class PrioridadViewModel @Inject constructor(
                 }
 
                 viewModelScope.launch {
-                    PrioridaRepositori.upsert(prioridad)
+                    try {
+                        PrioridaRepositori.upsert(prioridad)
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                MessageSucces = "Se guardó correctamente"
+                            )
+                        }
+                    } catch (e: Exception) {
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                error = "Error al guardar: ${e.message}"
+                            )
+                        }
+                    }
                 }
 
                 _state.update {

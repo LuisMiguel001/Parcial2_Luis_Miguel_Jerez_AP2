@@ -10,11 +10,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -38,8 +41,27 @@ fun Registro(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val _state = state.prioridad
 
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
         Spacer(modifier = Modifier.height(60.dp))
+        Text(text = "Registro de Prioridad", style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally),
+            color = Color.Cyan
+        )
+        OutlinedTextField(
+            value = _state.idPrioridad.toString(),
+            onValueChange = { viewModel.onEvent(PrioridadEvent.Idprioridad(it))},
+            label = { Text(text = "Id")},
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp)
+        )
+
         OutlinedTextField(
             value = _state.nombre,
             onValueChange = { viewModel.onEvent(PrioridadEvent.Nombre(it))},
@@ -61,7 +83,7 @@ fun Registro(
         OutlinedTextField(
             value = _state.plazo.toString(),
             onValueChange = { viewModel.onEvent(PrioridadEvent.Plazo(it))},
-            label = { Text(text = "Nombre")},
+            label = { Text(text = "Plazo")},
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(5.dp)
@@ -123,7 +145,11 @@ fun Registro(
                 },
                 modifier = Modifier
                     .weight(1f)
-                    .padding(4.dp)
+                    .padding(4.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Cyan,
+                    contentColor = Color.Black
+                )
             ) {
                 Row(
                     horizontalArrangement = Arrangement.Center,
@@ -140,7 +166,11 @@ fun Registro(
                 },
                 modifier = Modifier
                     .weight(1f)
-                    .padding(4.dp)
+                    .padding(4.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Green,
+                    contentColor = Color.Black
+                )
             ) {
                 Row(
                     horizontalArrangement = Arrangement.Center,
