@@ -5,6 +5,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -77,13 +78,15 @@ fun Consulta(
 
         LazyColumn {
             items(prioridades) { prioridad ->
+                var expanded by remember { mutableStateOf(false) }
                 SwipeToDeleteContainer(
                     item = prioridad,
                     onDelete = {
                         viewModel.onEvent(PrioridadEvent.Delete(it))
-                    }
+                    },
+                    onClick = { expanded = !expanded }
                 ) { item ->
-                    Card(prioridad = prioridad)
+                    Card(prioridad = prioridad, expanded = expanded)
                 }
             }
         }
@@ -92,7 +95,8 @@ fun Consulta(
 
 @Composable
 fun Card(
-    prioridad: Prioridades
+    prioridad: Prioridades,
+    expanded: Boolean
 ) {
     Column(
         modifier = Modifier
@@ -127,6 +131,71 @@ fun Card(
                 )
             }
         }
+        if (expanded) {
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    ) {
+                        append("Descripción: ")
+                    }
+                    withStyle(style = SpanStyle(color = Color.Green)) {
+                        append("${prioridad.descripcion}\n")
+                    }
+
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    ) {
+                        append("Plazo: ")
+                    }
+                    withStyle(style = SpanStyle(color = Color.Green)) {
+                        append("${prioridad.plazo} días\n")
+                    }
+
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    ) {
+                        append("Fecha de creación: ")
+                    }
+                    withStyle(style = SpanStyle(color = Color.Green)) {
+                        append("${prioridad.fechaCreacion}\n")
+                    }
+
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    ) {
+                        append("Creado por: ")
+                    }
+                    withStyle(style = SpanStyle(color = Color.Green)) {
+                        append("${prioridad.creadoPor}\n")
+                    }
+
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    ) {
+                        append("Fecha de Modificacion: ")
+                    }
+                    withStyle(style = SpanStyle(color = Color.Green)) {
+                        append("${prioridad.fechaCreacion}\n")
+                    }
+                }
+            )
+        }
     }
 }
 
@@ -135,6 +204,7 @@ fun Card(
 fun SwipeToDeleteContainer(
     item: Prioridades,
     onDelete: (Prioridades) -> Unit,
+    onClick: () -> Unit,
     animationDuration: Int = 500,
     content: @Composable (Prioridades) -> Unit
 ) {
@@ -171,7 +241,14 @@ fun SwipeToDeleteContainer(
             background = {
                 DeleteBackground(swipeDismissState = state)
             },
-            dismissContent = { content(item) },
+            dismissContent = {
+                Box(
+                    modifier = Modifier
+                        .clickable { onClick() }
+                ) {
+                    content(item)
+                }
+            },
             directions = setOf(DismissDirection.EndToStart)
         )
     }
