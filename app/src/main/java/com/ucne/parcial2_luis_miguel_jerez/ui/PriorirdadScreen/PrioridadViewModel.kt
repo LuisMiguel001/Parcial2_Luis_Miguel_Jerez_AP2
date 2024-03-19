@@ -30,6 +30,14 @@ class PrioridadViewModel @Inject constructor(
                 }
             }
 
+            is PrioridadEvent.Imagen -> {
+                _state.update {
+                    it.copy(
+                        prioridad = it.prioridad.copy(imagen = event.rutaImagen)
+                    )
+                }
+            }
+
             is PrioridadEvent.Nombre -> {
                 _state.update {
                     it.copy(
@@ -96,6 +104,7 @@ class PrioridadViewModel @Inject constructor(
 
             PrioridadEvent.onSave -> {
                 val nombre = state.value.prioridad.nombre
+                val imagen = state.value.prioridad.imagen
                 val descripcion = state.value.prioridad.descripcion
                 val plazo = state.value.prioridad.plazo
                 val esnulo = state.value.prioridad.esNulo
@@ -106,6 +115,7 @@ class PrioridadViewModel @Inject constructor(
 
                 val prioridad = Prioridades(
                     nombre = nombre,
+                    imagen = imagen,
                     descripcion = descripcion,
                     plazo = plazo,
                     esNulo = esnulo,
@@ -115,8 +125,7 @@ class PrioridadViewModel @Inject constructor(
                     fechaModificacion = fechamodificacion
                 )
 
-                if (nombre.isBlank() || descripcion.isBlank() || plazo == 0  || esnulo == null ||
-                    creado == 0 || fechamodificacion.isBlank() || modificadopor == 0 || fechamodificacion.isBlank()) {
+                if (nombre.isBlank() || descripcion.isBlank()) {
                     _state.update {
                         it.copy(
                             error = "Por favor, complete todos los campos."
@@ -181,6 +190,7 @@ data class StatePrioridad(
 
 sealed interface PrioridadEvent {
     data class Idprioridad(val id: String) : PrioridadEvent
+    data class Imagen(val rutaImagen: String) : PrioridadEvent
     data class Nombre(val nombre: String) : PrioridadEvent
     data class Descripcion(val descripcion: String) : PrioridadEvent
     data class Plazo(val plazo: String) : PrioridadEvent

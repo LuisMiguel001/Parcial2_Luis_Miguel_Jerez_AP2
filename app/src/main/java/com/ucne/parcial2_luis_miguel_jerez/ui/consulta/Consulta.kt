@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -53,6 +54,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ucne.parcial2_luis_miguel_jerez.data.local.entity.Prioridades
+import com.ucne.parcial2_luis_miguel_jerez.ui.PriorirdadScreen.LoadImageFromFile
 import com.ucne.parcial2_luis_miguel_jerez.ui.PriorirdadScreen.PrioridadEvent
 import com.ucne.parcial2_luis_miguel_jerez.ui.PriorirdadScreen.PrioridadViewModel
 import kotlinx.coroutines.delay
@@ -192,6 +194,15 @@ fun Card(
                     }
                     withStyle(style = SpanStyle(color = Color.Green)) {
                         append("${prioridad.fechaCreacion}\n")
+                    }
+                    if (prioridad.imagen.isNotEmpty()) {
+                        LoadImageFromFile(
+                            filePath = prioridad.imagen,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .height(200.dp)
+                                .fillMaxWidth()
+                        )
                     }
                 }
             )

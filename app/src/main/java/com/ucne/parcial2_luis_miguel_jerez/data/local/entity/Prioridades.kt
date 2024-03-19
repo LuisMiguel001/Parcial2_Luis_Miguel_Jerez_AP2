@@ -15,4 +15,5 @@ data class Prioridades(
     val fechaCreacion: String = "",
     val modidicadoPor: Int = 0,
     val fechaModificacion: String = "",
+    val imagen: String = "",
 )

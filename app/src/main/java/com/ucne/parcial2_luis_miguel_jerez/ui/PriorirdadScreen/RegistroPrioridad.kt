@@ -1,5 +1,7 @@
 package com.ucne.parcial2_luis_miguel_jerez.ui.PriorirdadScreen
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,9 +32,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.ucne.parcial2_luis_miguel_jerez.di.FileUtil
 
 
 @Composable
@@ -63,6 +68,30 @@ fun Registro(
                 .fillMaxWidth()
                 .padding(5.dp)
         )
+
+        val context = LocalContext.current
+        val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
+            // Convertir la URI a una ruta de archivo
+            val filePath = uri?.let { FileUtil.from(context, it) }
+            // Enviar la ruta de la imagen al ViewModel
+            filePath?.let { PrioridadEvent.Imagen(it) }?.let { viewModel.onEvent(it) }
+        }
+
+        Button(
+            onClick = {
+                // Lanzar el selector de imágenes
+                launcher.launch("image/*")
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Blue,
+                contentColor = Color.White
+            )
+        ) {
+            Text("Seleccionar Imagen")
+        }
 
         OutlinedTextField(
             value = _state.descripcion,
